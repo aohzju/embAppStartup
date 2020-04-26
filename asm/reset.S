@@ -20,12 +20,6 @@ reset_handler:
 	// Initialize VBAR_ELx:
 	LDR X1, = vector_table_el3
 	MSR VBAR_EL3, X1
-	/*
-	LDR X1, = vector_table_el2
-	MSR VBAR_EL2, X1
-	LDR X1, = vector_table_el1
-	MSR VBAR_EL1, X1
-	*/
 
 	// Initialize the register bank:
 	.irp	reg, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10
@@ -39,10 +33,6 @@ reset_handler:
 	.endr
 
 	//Initialize stack pointers:
-	//Use SP_EL0 and SP_EL3 only as we work in EL3 only
-	//SP_EL0 is to be used by FreeRTOS tasks, which will be set to individual tasks' stack when context switches.
-	//SP_EL3 is to be used by other cases, e.g. interrupts, system init
-	//stage before the first FreeRTOS task is activated.
 	//AARCH64 stack is full descending, so set the initial value of SP to Image$$ARM_LIB_STACK$$ZI$$Limit
 	LDR		X0, =Image$$ARM_LIB_STACK$$ZI$$Limit  //ARM_LIB_STACK: to be defined in the scatter loading file
 	MOV		SP, X0  //SP is SP_EL3 on reset
