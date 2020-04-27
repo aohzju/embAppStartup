@@ -2,6 +2,7 @@
  ============================================================================
  */
 #include "config.h"
+#include "stdio.h"
 #include "uart.h"
 #include "basehw.h"
 
@@ -13,21 +14,11 @@ int array3[64]; //Global or statically allocated variables not explicitly initia
 				//Will goes to *COM* section by gcc if -fno-common is not used
 int array4[16] __attribute__((section("configData"))) = { 100, 101, 102, 103}; //A named data section
 
-#define uart0 0x001C090000LL
-char *uartdr0 = (char*) uart0;
-short *uartctl0 = (short*)(uart0 + 0x0030);
-
-#define GenCounterFreq	0x5F5E100	//100M
-#define TICK_CYCLES		(10*GenCounterFreq/1000) //10ms tick length
 
 int appmain(void) {
 
 	int n, x, y, len;
 	x = 20;
-
-	setGenTimerFreq(GenCounterFreq);
-	setEL3PhyTimerCV(getPhyCount()+TICK_CYCLES);
-	setEL3PhyTimerCtrl(0x01);
 
 	for(n=0; n<16; n++){
 		array1[n] += x+array4[n];
@@ -38,9 +29,9 @@ int appmain(void) {
 		array3[n+32] = array2[n] + 2;
 	}
 
-	enable_uart(UART0);
-	write_uart_string(UART0, "Hello\nWorld!");
+	open__stdout();
 
+	printf("Hello, %s, %d regions initialized by scatter loading\n", "World", 3);
 
 	while(1)
 		;

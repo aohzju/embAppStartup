@@ -3,8 +3,9 @@
  *
  */
 
-#include "uart.h"
+#include <stdio.h>
 #include <stdint.h>
+#include "uart.h"
 
 //static int uartdr_offset = 0;
 static int uartctl_offset = 0x0030;
@@ -42,3 +43,26 @@ void write_uart_char(UART_PL011 uart, char ch)
 	char *uartdr = (char*)uart;
 	*uartdr = ch;
 }
+
+//printf's dependencies:
+FILE  __stdout={UART0};  //Use UART0 as stdout
+
+int fputc(int c, FILE* stream)
+{
+	uint8_t chr = (uint8_t)c;
+	write_uart_char(stream->fuart, chr);
+	return chr;
+}
+
+int ferror(FILE *stream)
+{
+	(void)stream;
+	return 0;
+}
+
+//__stdout must be opened before printf can be called:
+void open__stdout()
+{
+	enable_uart(__stdout.fuart);
+}
+
