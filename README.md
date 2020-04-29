@@ -34,3 +34,7 @@ It illustrated two ways to do scatter loading, which is the most important step 
  
  Hopefully, you'll get appStartupDemo.axf up to this point.
  The build option USE_ARM_LIB_STARTUP allows you to switch between the two initialization methods. 
+ 
+ To run the FVP, use these model parameters:
+ 
+ -C bp.secure_memory=false -C bp.terminal_0.mode=raw -C bp.refcounter.non_arch_start_at_default=1 
