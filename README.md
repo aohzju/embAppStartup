@@ -1,5 +1,5 @@
 # embAppStartup
-This is a minimal embedded application skeleton focusing on application startup and initialization.
+This is a minimal embedded application skeleton focusing on application startup and initialization, built for ARMv8A systems. It was tested on ARM FVP (fixed virtual platform) FVP_Base_RevC-2xAEMv8A.
 
 It illustrated two ways to do scatter loading, which is the most important step for application startup and initialization:
 * Call ARM Library's startup code
@@ -38,3 +38,6 @@ It illustrated two ways to do scatter loading, which is the most important step 
  To run the FVP, use these model parameters:
  
  -C bp.secure_memory=false -C bp.terminal_0.mode=raw -C bp.refcounter.non_arch_start_at_default=1 
+ 
+# ARM FVP
+The virtual platform used in this application is FVP_Base_RevC-2xAEMv8A, which can be downloaded [here](https://developer.arm.com/tools-and-software/simulation-models/fixed-virtual-platforms)
